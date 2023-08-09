@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Item = ({
   task,
   onDelete,
@@ -9,6 +7,9 @@ export const Item = ({
   editedText,
   setEditedText,
 }) => {
+  const handleSaveEditClick = () => {
+    onSaveEdit(task.id, editedText);
+  };
   return (
     <li className="list-item" key={task.id}>
       {isEditing ? (
@@ -26,7 +27,7 @@ export const Item = ({
           ❌
         </span>
         {isEditing ? (
-          <span className="save" onClick={onSaveEdit}>
+          <span className="save" onClick={handleSaveEditClick}>
             🔒
           </span>
         ) : (

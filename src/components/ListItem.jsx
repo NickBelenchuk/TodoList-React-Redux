@@ -1,24 +1,31 @@
-import React from "react";
 import { Item } from "./Item";
 
 export const ListItem = ({
   tasks,
   onDelete,
-  onEdit,
   onSaveEdit,
   editingIndex,
   editedText,
   setEditedText,
+  onEdit,
 }) => {
+  const handleDelete = (id) => {
+    onDelete(id);
+  };
+
+  const handleSaveEdit = (taskId, editedText) => {
+    onSaveEdit(taskId, editedText);
+  };
+
   return (
     <ul className="list">
       {tasks.map((task, index) => (
         <Item
           task={task}
           key={task.id}
-          onDelete={onDelete}
+          onDelete={handleDelete}
+          onSaveEdit={handleSaveEdit}
           onEdit={() => onEdit(index)}
-          onSaveEdit={() => onSaveEdit(index)}
           isEditing={editingIndex === index}
           editedText={editedText}
           setEditedText={setEditedText}
