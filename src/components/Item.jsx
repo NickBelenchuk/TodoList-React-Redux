@@ -1,3 +1,5 @@
+import React from "react";
+
 export const Item = ({
   task,
   onDelete,
@@ -10,6 +12,7 @@ export const Item = ({
   const handleSaveEditClick = () => {
     onSaveEdit(task.id, editedText);
   };
+
   return (
     <li className="list-item" key={task.id}>
       {isEditing ? (

@@ -14,7 +14,6 @@ export const taskReducer = (state = initialState, action) => {
         ...state,
         tasks: state.tasks.filter((task) => task.id !== action.payload),
       };
-
     case "tasks/update":
       return {
         ...state,

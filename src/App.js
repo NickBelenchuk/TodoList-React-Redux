@@ -7,7 +7,7 @@ import { addTask, deleteTask, updateTask } from "./redux/taskActions";
 function App() {
   const [inputValue, setInputValue] = useState("");
   const [editedText, setEditedText] = useState("");
-  const [editingid, setEditingid] = useState(null);
+  const [editingIndex, setEditingIndex] = useState(null);
 
   const tasks = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
@@ -23,20 +23,20 @@ function App() {
     dispatch(deleteTask(id));
   };
 
-  const handleEdit = (id) => {
-    setEditingid(id);
-    console.log(id);
-    const editedTaskText = tasks[id].text;
+  const handleEdit = (index) => {
+    setEditingIndex(index);
+    const editedTaskText = tasks[index].text;
     setEditedText(editedTaskText);
   };
 
   const handleSaveEdit = (taskId, editedText) => {
+    if (editedText === "") return;
     const updatedTasks = tasks.map((task) =>
       task.id === taskId ? { ...task, text: editedText } : task
     );
 
     dispatch(updateTask(updatedTasks));
-    setEditingid(null);
+    setEditingIndex(null);
     setEditedText("");
   };
 
@@ -54,7 +54,7 @@ function App() {
         onEdit={handleEdit}
         editedText={editedText}
         setEditedText={setEditedText}
-        editingid={editingid}
+        editingIndex={editingIndex}
       />
     </div>
   );
