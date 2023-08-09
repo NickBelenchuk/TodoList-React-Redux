@@ -1,6 +1,10 @@
 export const Input = ({ inputValue, setInputValue, handleSubmitTask }) => {
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    handleSubmitTask();
+  };
   return (
-    <form className="input__block">
+    <form className="input__block" onSubmit={handleFormSubmit}>
       <div className="block">
         <input
           className="input"
@@ -9,7 +13,7 @@ export const Input = ({ inputValue, setInputValue, handleSubmitTask }) => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
         />
-        <button className="btn" type="submit" onClick={handleSubmitTask}>
+        <button className="btn" type="submit">
           Confrim
         </button>
       </div>

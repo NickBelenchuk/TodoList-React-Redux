@@ -1,14 +1,13 @@
-import React from "react";
 import { Item } from "./Item";
 
 export const ListItem = ({
   tasks,
   onDelete,
-  onEdit,
   onSaveEdit,
-  editingIndex,
+  editingid,
   editedText,
   setEditedText,
+  onEdit,
 }) => {
   return (
     <ul className="list">
@@ -16,10 +15,10 @@ export const ListItem = ({
         <Item
           task={task}
           key={task.id}
-          onDelete={onDelete}
-          onEdit={() => onEdit(index)}
-          onSaveEdit={() => onSaveEdit(index)}
-          isEditing={editingIndex === index}
+          onDelete={() => onDelete(task.id)}
+          onSaveEdit={(editedText) => onSaveEdit(task.id, editedText)}
+          onEdit={onEdit}
+          isEditing={editingid === task.id}
           editedText={editedText}
           setEditedText={setEditedText}
         />

@@ -1,36 +1,42 @@
 import React, { useState } from "react";
 import { Input } from "./components/Input";
 import { ListItem } from "./components/ListItem";
+import { useDispatch, useSelector } from "react-redux";
+import { addTask, deleteTask, updateTask } from "./redux/taskActions";
 
 function App() {
-  const [tasks, setNewTasks] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  const [editingIndex, setEditingIndex] = useState(null);
   const [editedText, setEditedText] = useState("");
+  const [editingid, setEditingid] = useState(null);
 
-  const handleSubmitTask = (e) => {
-    e.preventDefault();
+  const tasks = useSelector((state) => state.tasks);
+  const dispatch = useDispatch();
+
+  const handleSubmitTask = () => {
     if (!inputValue) return;
 
-    setNewTasks([...tasks, { text: inputValue, id: new Date() }]);
+    dispatch(addTask({ text: inputValue, id: new Date().getTime() }));
     setInputValue("");
   };
 
   const handledeleteTask = (id) => {
-    const updatedTasks = tasks.filter((task) => task.id !== id);
-    setNewTasks(updatedTasks);
+    dispatch(deleteTask(id));
   };
 
-  const handleEdit = (index) => {
-    setEditingIndex(index);
-    setEditedText(tasks[index].text);
+  const handleEdit = (id) => {
+    setEditingid(id);
+    console.log(id);
+    const editedTaskText = tasks[id].text;
+    setEditedText(editedTaskText);
   };
 
-  const handleSaveEdit = (index) => {
-    const updatedTasks = [...tasks];
-    updatedTasks[index].text = editedText;
-    setNewTasks(updatedTasks);
-    setEditingIndex(null);
+  const handleSaveEdit = (taskId, editedText) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === taskId ? { ...task, text: editedText } : task
+    );
+
+    dispatch(updateTask(updatedTasks));
+    setEditingid(null);
     setEditedText("");
   };
 
@@ -44,11 +50,11 @@ function App() {
       <ListItem
         tasks={tasks}
         onDelete={handledeleteTask}
-        onEdit={handleEdit}
         onSaveEdit={handleSaveEdit}
-        editingIndex={editingIndex}
+        onEdit={handleEdit}
         editedText={editedText}
         setEditedText={setEditedText}
+        editingid={editingid}
       />
     </div>
   );
